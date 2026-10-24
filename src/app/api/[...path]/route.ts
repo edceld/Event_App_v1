@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import {
   createUser,
+  bootstrapAdmin,
   digest,
   hashPassword,
   sessionUser,
@@ -21,6 +22,7 @@ import { randomUUID } from "node:crypto";
 export const runtime = "nodejs";
 const cookie = "event_gate_session";
 const dummyHash = hashPassword("unused-dummy-password-for-timing");
+let initialSetup: Promise<boolean> | undefined;
 async function handle(
   req: NextRequest,
   context: { params: Promise<{ path: string[] }> },
@@ -28,6 +30,17 @@ async function handle(
   try {
     const path = (await context.params).path.join("/");
     const client = db();
+    if (process.env.INITIAL_USER_EMAIL && process.env.INITIAL_USER_PASSWORD) {
+      initialSetup ||= bootstrapAdmin(client, {
+        email: process.env.INITIAL_USER_EMAIL,
+        password: process.env.INITIAL_USER_PASSWORD,
+        name: process.env.INITIAL_USER_NAME,
+      }).catch((e) => {
+        initialSetup = undefined;
+        throw e;
+      });
+      await initialSetup;
+    }
     const mutating = req.method === "POST";
     if (mutating) {
       const origin = req.headers.get("origin");

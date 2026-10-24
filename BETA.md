@@ -1,4 +1,4 @@
-# Event Gate 0.1.0-beta.1
+# Event Gate 0.1.0-beta.2
 
 This beta includes administrator-issued QR/JPG tickets, Staff/Performer/General Attendee ticket types, simultaneous online check-in, supervisor-approved re-entry, and five language choices.
 

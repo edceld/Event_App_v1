@@ -6,6 +6,7 @@ import {
   randomUUID,
 } from "node:crypto";
 import type { Client } from "@libsql/client";
+import { initialize, writeTransaction } from "./db";
 export type Role = "admin" | "supervisor" | "checkin";
 export type User = { id: string; name: string; email: string; role: Role };
 export const digest = (value: string) =>
@@ -22,7 +23,7 @@ export function verifyPassword(password: string, stored: string) {
   return actual.length === expected.length && timingSafeEqual(actual, expected);
 }
 export async function createUser(
-  client: Client,
+  client: Pick<Client, "execute">,
   name: string,
   email: string,
   role: Role,
@@ -50,6 +51,31 @@ export async function createUser(
     ],
   });
   return id;
+}
+// Only trusted server environment settings can supply this configuration.
+// An existing installation is never reset, overwritten, or given a new admin.
+export async function bootstrapAdmin(
+  client: Client,
+  config: { email?: string; password?: string; name?: string },
+) {
+  if (!config.email || !config.password) return false;
+  await initialize(client);
+  const tx = await writeTransaction(client);
+  try {
+    const count = (await tx.execute("SELECT COUNT(*) AS n FROM users")).rows[0];
+    if (Number(count.n) > 0) return false;
+    await createUser(
+      tx,
+      config.name || "Administrator",
+      config.email,
+      "admin",
+      config.password,
+    );
+    await tx.commit();
+    return true;
+  } finally {
+    tx.close();
+  }
 }
 export async function sessionUser(
   client: Client,

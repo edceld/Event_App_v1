@@ -42,7 +42,7 @@ This is a Next.js application, with Node.js API routes and libSQL storage. GitHu
 
 1. Push the reviewed source to your GitHub repository and import it into Vercel as a Next.js project using Node.js 24. Set the project root to the repository root. Use `npm ci`, `npm run build`, and the standard Next.js output.
 2. Create a persistent hosted libSQL/Turso database and configure `DATABASE_URL=libsql://<your-database-host>` and `DATABASE_AUTH_TOKEN` securely in Vercel. Use distinct databases for development/preview and production.
-3. With the **same target database variables** securely available in your administrative shell, run `npm run db:init` and `npm run user:create -- "Your Name" your-email@example.com admin`. These commands must target the remote database, not the default local file. Schema initialization is repeatable and does not create sample events or users.
+3. For first-run setup without a local terminal, set `INITIAL_USER_EMAIL`, `INITIAL_USER_PASSWORD` (12–128 characters), and optionally `INITIAL_USER_NAME` in Vercel for the target environment. The first API request initializes the schema and creates an administrator **only if there are no users**. Concurrent requests cannot create multiple initial administrators, and these variables never reset existing accounts. After first-run setup, the password variable can be removed; the stored password hash continues to work. Alternatively, with the **same target database variables** securely available in an administrative shell, run `npm run db:init` and `npm run user:create -- "Your Name" your-email@example.com admin`. These commands must target the remote database, not the default local file.
 4. Deploy, sign in at the HTTPS deployment, and create your real event and team accounts. Validate camera permission and scanning on actual iPhone/Android devices and all intended phones before the event.
 5. Configure database backups and restore testing through your database provider. Protect hosting/database/email account access; do not expose administrative tokens to browsers. Keep dependencies patched and use separate named staff accounts.
 
@@ -60,7 +60,7 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-The nine core tests exercise five simultaneous scans of one QR, five different simultaneous admissions, wrong-event/invalid/cancelled tickets, role permissions, supervisor audit records and approval reuse, cancellation during approval, capacity enforcement, passwords, and language selection.
+The ten core tests exercise secure first-run administrator creation, five simultaneous scans of one QR, five different simultaneous admissions, wrong-event/invalid/cancelled tickets, role permissions, supervisor audit records and approval reuse, cancellation during approval, capacity enforcement, passwords, and language selection.
 
 The browser test starts a production server on port 3100 against the isolated `.data/browser-test.db`, which it resets each run. It never uses the development or production database. It tests phone-size layouts, login, event/ticket creation, actual JPG generation and QR decoding, concurrent HTTP scans, supervisor approval across separate sessions, cancellation, cross-origin request rejection, and language switching. Its test-only accounts are confined to that fixture. Never deploy the test database or use its credentials operationally.
 
