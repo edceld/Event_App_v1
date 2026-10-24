@@ -4,9 +4,13 @@ This beta includes administrator-issued QR/JPG tickets, Staff/Performer/General 
 
 ## Hosting status
 
-The GitHub prerelease contains the application source. A GitHub release page is not the running application. A hosted beta requires a Vercel project, a dedicated hosted libSQL database, and an initial administrator account. The hosted URL will be provided after deployment and validation. GitHub Pages cannot run this application's backend.
+The hosted beta is available at **https://event-gate-beta-7986cqgqm-dev-apps4.vercel.app**. It runs in the Vercel project's Preview environment with a dedicated Turso Starter ($0/month) database. Sign in with the separately provisioned administrator account and the password you chose in Vercel's secure settings. Check-in staff use application accounts; they do not need Vercel accounts.
+
+The GitHub prerelease contains the source; it is not an installable phone binary. Open the hosted HTTPS link in your phone's browser. GitHub Pages cannot run this application's backend.
 
 The beta database must be separate from any production event data. Automatic email delivery is optional for the initial beta; JPG downloading and manual distribution work without an email provider.
+
+Validation passed: ten core tests, the mobile browser workflow with a simulated camera, TypeScript/production compilation, and fifteen hosted functional checks including five simultaneous phone sessions. Temporary hosted validation accounts, tickets, and events were removed. Physical iPhone/Android camera testing and real email delivery still need operator validation.
 
 ## Try the beta
 

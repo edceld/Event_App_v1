@@ -48,7 +48,7 @@ This is a Next.js application, with Node.js API routes and libSQL storage. GitHu
 
 For automatic email, configure `RESEND_API_KEY` and `EMAIL_FROM` in the hosting environment. Verify the sender's domain with Resend. The server sends the generated JPG as an attachment to the ticket's stored recipient address; staff accounts cannot call the email endpoint. A provider acceptance response does not guarantee inbox delivery. A timeout can leave delivery uncertain: check provider logs before resending. Delivery attempts and provider acceptance IDs are retained in `email_deliveries`.
 
-Cloud task networking may need the exact database hostname and `api.resend.com` added to the environment's allowed domains when validating those providers. Enter credentials in secure environment settings, never in chat. No hosting account, remote database, or real email sender was configured during the local implementation.
+Cloud task networking may need the exact database hostname and `api.resend.com` added to the environment's allowed domains when validating those providers. Enter credentials in secure environment settings, never in chat. The hosted beta uses a dedicated Vercel project and Turso Starter database; see [BETA.md](BETA.md) for its URL and validation status. A real email sender has not yet been configured.
 
 ## Validation
 
