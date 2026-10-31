@@ -14,6 +14,7 @@ import {
   type Language,
 } from "@/lib/i18n";
 import { ticketJpg } from "@/lib/jpg";
+import { BETA_VERSION } from "@/lib/release";
 import type { User } from "@/lib/auth";
 type EventRow = {
   id: string;
@@ -65,6 +66,10 @@ async function api(path: string, body?: unknown) {
 export default function Home() {
   const [lang, setLang] = useState<Language>("en");
   const t = useCallback((key: string) => translate(lang, key), [lang]);
+  const releaseLabel = t("betaVersion").replace(
+    "{version}",
+    String(BETA_VERSION),
+  );
   const [user, setUser] = useState<User | null>(null),
     [loading, setLoading] = useState(true),
     [emailEnabled, setEmailEnabled] = useState(false);
@@ -305,7 +310,7 @@ export default function Home() {
               });
             }}
           >
-            <span className="eyebrow">EVENT GATE</span>
+            <span className="eyebrow">EVENT GATE · {releaseLabel}</span>
             <h2>{t("login")}</h2>
             <p className="muted">{t("loginHelp")}</p>
             <label>
@@ -426,7 +431,9 @@ export default function Home() {
       <main className="workspace">
         <header>
           <div>
-            <span className="eyebrow">EVENT GATE / {t(tab)}</span>
+            <span className="eyebrow">
+              EVENT GATE / {t(tab)} · {releaseLabel}
+            </span>
             <h1>{selected?.name || t("events")}</h1>
             {selected && (
               <p className="muted">
@@ -836,7 +843,7 @@ export default function Home() {
           </section>
         )}
         <footer>
-          ◈ EVENT GATE <span>{t("online")}</span>
+          ◈ EVENT GATE · {releaseLabel} <span>{t("online")}</span>
         </footer>
       </main>
       {modal && (

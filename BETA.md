@@ -1,10 +1,12 @@
-# Event Gate 0.1.0-beta.2
+# Event Gate — Beta version 1
+
+The current app is labeled **Beta version 1**, with the release tag `beta-v1`. Earlier technical prerelease tags remain available in GitHub history.
 
 This beta includes administrator-issued QR/JPG tickets, Staff/Performer/General Attendee ticket types, simultaneous online check-in, supervisor-approved re-entry, and five language choices.
 
 ## Hosting status
 
-The hosted beta is available at **https://event-gate-beta-7986cqgqm-dev-apps4.vercel.app**. It runs in the Vercel project's Preview environment with a dedicated Turso Starter ($0/month) database. Sign in with the separately provisioned administrator account and the password you chose in Vercel's secure settings. Check-in staff use application accounts; they do not need Vercel accounts.
+The hosted beta is available at **https://event-gate-beta-dev-apps4.vercel.app**. It runs in the Vercel project's Preview environment with a dedicated Turso Starter ($0/month) database. Sign in with the separately provisioned administrator account and the password you chose in Vercel's secure settings. Check-in staff use application accounts; they do not need Vercel accounts.
 
 The GitHub prerelease contains the source; it is not an installable phone binary. Open the hosted HTTPS link in your phone's browser. GitHub Pages cannot run this application's backend.
 

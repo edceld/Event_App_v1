@@ -8,6 +8,13 @@ export const languageNames = [
   "繁體中文",
 ];
 const messages: Record<string, string[]> = {
+  betaVersion: [
+    "Beta version {version}",
+    "ベータ版 {version}",
+    "Phiên bản beta {version}",
+    "测试版 {version}",
+    "測試版 {version}",
+  ],
   UNAUTHORIZED: [
     "Your session expired. Please sign in again.",
     "セッションが切れました。再度ログインしてください。",
